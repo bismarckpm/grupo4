@@ -5,11 +5,9 @@ import java.io.IOException;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
+
+import javax.swing.*;
 
 /**
  * This program illustrates how to update an existing Microsoft Excel document.
@@ -71,4 +69,63 @@ public class ExcelFileUpdateExample1 {
 		}
 	}
 
+	public static void HistoriaC(){
+		String numReg = JOptionPane.showInputDialog("Ingrese el numero del Registro");
+		int numRegint = Integer.parseInt(numReg);
+		boolean validacion = false;
+
+		String excelFilePath = "Inventario.xlsx";
+		try {
+			FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+			Workbook workbook = WorkbookFactory.create(inputStream);
+			Sheet sheet = workbook.getSheetAt(0);
+
+
+
+			for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+				if ((int) sheet.getRow(i).getCell(0).getNumericCellValue() == numRegint) {
+					String confirmar = JOptionPane.showInputDialog("Desea modificar el autor? Si, No");
+					validacion = true;
+
+					if (confirmar.equals("si")) {
+						String autor = JOptionPane.showInputDialog("Ingrese el nuevo nombre del autor");
+						sheet.getRow(i).getCell(2).setCellValue(autor);
+					}
+					String confirmar2 = JOptionPane.showInputDialog("Desea modificar el precio? Si, No");
+
+					if (confirmar2.equals("si")) {
+						String precio = JOptionPane.showInputDialog("Ingrese el nuevo precio");
+						int precioint = Integer.parseInt(precio);
+						sheet.getRow(i).getCell(3).setCellValue(precioint);
+					}
+				}
+			}
+			if (!validacion){
+				JOptionPane.showMessageDialog(null,"El registro no existe");
+			}else {
+
+				for (Row row : sheet) {
+					for (Cell currentCell : row) {
+						if (currentCell.getCellTypeEnum() == CellType.STRING) {
+							System.out.print(currentCell.getStringCellValue() + "  ");
+						} else if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
+							System.out.print(currentCell.getNumericCellValue() + "  ");
+						}
+					}
+					System.out.println();
+
+				}
+			}
+
+			inputStream.close();
+			FileOutputStream outputStream = new FileOutputStream(excelFilePath);
+			workbook.write(outputStream);
+			workbook.close();
+			outputStream.close();
+
+		} catch (InvalidFormatException | IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 }
