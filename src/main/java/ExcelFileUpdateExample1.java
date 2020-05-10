@@ -20,53 +20,82 @@ public class ExcelFileUpdateExample1 {
 
 
 	public static void main(String[] args) {
-		String excelFilePath = "Inventario.xlsx";
-		
-		try {
-			FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
-			Workbook workbook = WorkbookFactory.create(inputStream);
+		int opc = Integer.parseInt(JOptionPane.showInputDialog(null,"Menu\n"
+		+ "1: Correr prograna\n"
+		+ "2: Validar archivo existente\n"
+		+ "3: Cantidad de registros por hoja\n"
+		+ "4: Actualizar registro\n"
+		+ "Presione Cancel para salir"));
 
-			Sheet sheet = workbook.getSheetAt(0);
+		do{
+			switch (opc){
+				case 1:{
+					try {
+						String excelFilePath = "Inventario.xlsx";
+						FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+						Workbook workbook = WorkbookFactory.create(inputStream);
 
-			Object[][] bookData = {
-					{"El que se duerme pierde", "Tom Peter", 16},
-					{"Sin lugar a duda", "Ana Gutierrez", 26},
-					{"El arte de dormir", "Nico", 32},
-					{"Buscando a Nemo", "Humble Po", 41},
-			};
+						Sheet sheet = workbook.getSheetAt(0);
 
-			int rowCount = sheet.getLastRowNum();
+						Object[][] bookData = {
+								{"El que se duerme pierde", "Tom Peter", 16},
+								{"Sin lugar a duda", "Ana Gutierrez", 26},
+								{"El arte de dormir", "Nico", 32},
+								{"Buscando a Nemo", "Humble Po", 41},
+						};
 
-			for (Object[] aBook : bookData) {
-				Row row = sheet.createRow(++rowCount);
+						int rowCount = sheet.getLastRowNum();
 
-				int columnCount = 0;
-				
-				Cell cell = row.createCell(columnCount);
-				cell.setCellValue(rowCount);
-				
-				for (Object field : aBook) {
-					cell = row.createCell(++columnCount);
-					if (field instanceof String) {
-						cell.setCellValue((String) field);
-					} else if (field instanceof Integer) {
-						cell.setCellValue((Integer) field);
+						for (Object[] aBook : bookData) {
+							Row row = sheet.createRow(++rowCount);
+
+							int columnCount = 0;
+
+							Cell cell = row.createCell(columnCount);
+							cell.setCellValue(rowCount);
+
+							for (Object field : aBook) {
+								cell = row.createCell(++columnCount);
+								if (field instanceof String) {
+									cell.setCellValue((String) field);
+								} else if (field instanceof Integer) {
+									cell.setCellValue((Integer) field);
+								}
+							}
+
+						}
+
+						inputStream.close();
+
+						FileOutputStream outputStream = new FileOutputStream(excelFilePath);
+						workbook.write(outputStream);
+						workbook.close();
+						outputStream.close();
+
+					} catch (IOException | EncryptedDocumentException
+							| InvalidFormatException ex) {
+						ex.printStackTrace();
 					}
+					break;
 				}
 
+				case 2:{
+					break;
+				}
+
+				case 3:{
+					break;
+				}
+
+				case 4:{
+					HistoriaC();
+					break;
+				}
 			}
+		}while (opc < 4);
 
-			inputStream.close();
 
-			FileOutputStream outputStream = new FileOutputStream(excelFilePath);
-			workbook.write(outputStream);
-			workbook.close();
-			outputStream.close();
-			
-		} catch (IOException | EncryptedDocumentException
-				| InvalidFormatException ex) {
-			ex.printStackTrace();
-		}
+		HistoriaC();
 	}
 
 	public static void HistoriaC(){
