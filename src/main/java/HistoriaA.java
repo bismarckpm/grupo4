@@ -1,8 +1,5 @@
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
@@ -17,9 +14,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -27,6 +21,55 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+//////////////
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+
+import java.io.FileDescriptor;
+
+import org.apache.poi.ss.usermodel.Cell;
+
+///////////
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+
+////////
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Iterator;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /*Descripción: Como Usuario quiero validar si el archivo Excel existe
 para poder ejecutar el programa sin error.
@@ -88,6 +131,27 @@ public class HistoriaA {
         System.out.println("Se crea el archivo Inventario.xls");
     }
     public void mostrarArchivosExistentes(){
+        try {
+            String rutaArchivoExcel = "Inventario.xlsx";
+            FileInputStream inputStream = new FileInputStream(new File(rutaArchivoExcel));
+            Workbook workbook = new XSSFWorkbook(inputStream);
+            Sheet firstSheet = workbook.getSheetAt(0);
+            Iterator iterator = firstSheet.iterator();
+
+            DataFormatter formatter = new DataFormatter();
+            while (iterator.hasNext()) {
+                Row nextRow = (Row) iterator.next();
+                Iterator cellIterator = nextRow.cellIterator();
+                while(cellIterator.hasNext()) {
+                    Cell cell = (Cell) cellIterator.next();
+                    String contenidoCelda = formatter.formatCellValue(cell);
+                    System.out.println("celda: " + contenidoCelda);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

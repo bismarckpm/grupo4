@@ -75,6 +75,7 @@ public class ExcelFileUpdateExample1 {
 				| InvalidFormatException ex) {
 			ex.printStackTrace();
 		}
+		hitoriaGregory.mostrarArchivosExistentes();
 	}
 
 }
