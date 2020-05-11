@@ -1,6 +1,4 @@
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
@@ -22,11 +20,7 @@ public class ExcelFileUpdateExample1 {
 	public static void main(String[] args) {
 		String excelFilePath = "Inventario.xlsx";
 
-		HistoriaA hitoriaGregory= new HistoriaA();
-		int existeDocumento=hitoriaGregory.existeArchivo(new File(excelFilePath));
-		if (existeDocumento==0){
-			hitoriaGregory.crearArchivo();
-        }
+
 		try {
 			FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 			Workbook workbook = WorkbookFactory.create(inputStream);
@@ -81,7 +75,13 @@ public class ExcelFileUpdateExample1 {
 		do{
 			switch (opc){
 				case 1:{
-					break;
+					HistoriaA hitoriaGregory= new HistoriaA();
+					int existeDocumento=hitoriaGregory.existeArchivo(new File(excelFilePath));
+					if (existeDocumento==0){
+						hitoriaGregory.crearArchivo();
+					}
+					hitoriaGregory.mostrarArchivosExistentes();
+					return;
 				}
 
 				case 2:{
@@ -96,7 +96,7 @@ public class ExcelFileUpdateExample1 {
 				}
 			}
 		}while (opc < 4);
-		hitoriaGregory.mostrarArchivosExistentes();
+
 	}
 
 	public static void HistoriaC(){
