@@ -1,13 +1,12 @@
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * This program illustrates how to update an existing Microsoft Excel document.
@@ -17,7 +16,6 @@ import javax.swing.*;
  *
  */
 public class ExcelFileUpdateExample1 {
-
 
 	public static void main(String[] args) {
 		String excelFilePath = "Inventario.xlsx";
@@ -80,7 +78,9 @@ public class ExcelFileUpdateExample1 {
 				}
 
 				case 2:{
-					break;
+					AlumnoB alumnoB = new AlumnoB();
+					alumnoB.mostrarDatosLibro();
+					return;
 				}
 
 				case 3:{
